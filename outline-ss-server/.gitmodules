@@ -1,3 +1,0 @@
-[submodule "metrics/test-data"]
-	path = third_party/maxmind
-	url = https://github.com/maxmind/MaxMind-DB.git

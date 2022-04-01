@@ -1,9 +1,0 @@
-keys:
-- cipher: chacha20-ietf-poly1305
-  id: fcf544e4-6895-47f2-adb4-1a36bb23bc72
-  port: 9000
-  secret: kek101
-- cipher: chacha20-ietf-poly1305
-  id: '101104'
-  port: 9000
-  secret: kek101
