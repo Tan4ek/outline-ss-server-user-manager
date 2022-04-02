@@ -4,9 +4,7 @@ RUN pip3 install --no-cache-dir --user --no-warn-script-location  -r requirement
 
 FROM golang:1.18 as outline-ss-server-build
 WORKDIR /user-manager
-COPY .gitmodules .
-COPY .git ./.git
-RUN git submodule update
+RUN git clone https://github.com/Jigsaw-Code/outline-ss-server.git
 WORKDIR /user-manager/outline-ss-server
 RUN git checkout v1.3.5 && CGO_ENABLED=0 GOOS=linux go build -o outline-ss-server .
 
