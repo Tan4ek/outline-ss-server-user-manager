@@ -8,7 +8,7 @@ COPY .gitmodules .
 COPY .git ./.git
 RUN git submodule update
 WORKDIR /user-manager/outline-ss-server
-RUN CGO_ENABLED=0 GOOS=linux go build -o outline-ss-server .
+RUN git checkout v1.3.5 && CGO_ENABLED=0 GOOS=linux go build -o outline-ss-server .
 
 FROM python:3.8-alpine
 WORKDIR /user-manager

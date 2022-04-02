@@ -1,6 +1,10 @@
 ## How to run
 ```
-git clone git@github.com:Jigsaw-Code/outline-ss-server.git 
+git clone git@github.com:Jigsaw-Code/outline-ss-server.git
+cd outline-ss-server
+git checkout v1.3.5
+CGO_ENABLED=0 GOOS=linux go build -o outline-ss-server .
+cd ..
 cp default_config.yml outline-ss-server/config.yml
 pip3 install -r requirements.txt
 supervisord -c supervisord.conf
