@@ -1,19 +1,17 @@
-# This is a sample Python script.
-
+import subprocess
 from dataclasses import dataclass
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from typing import List, Optional
 
 import yaml
-import subprocess
-from yaml import Loader
 from fastapi import FastAPI, Response, status
+from filelock import FileLock
 from pydantic import BaseModel
+from yaml import Loader
 
 # TODO: get from config or env or args
 SSPORT = 9000
 CONFIG_FILE_PATH = 'outline-ss-server/config.yml'
+CONFIG_FILE_PATH_LOCK = CONFIG_FILE_PATH + '.lock'
 CIPHER = 'chacha20-ietf-poly1305'
 
 
@@ -82,6 +80,7 @@ def restart_outline_ss_server():
 
 
 app = FastAPI()
+config_file_lock = FileLock(CONFIG_FILE_PATH_LOCK, timeout=5)
 
 
 class User(BaseModel):
@@ -89,6 +88,7 @@ class User(BaseModel):
     sssecret: str
 
 
+@config_file_lock
 @app.post("/user", status_code=200)
 def create_user(user: User, response: Response):
     state = get_state()
@@ -128,6 +128,7 @@ def get_user(user_id: str, response: Response):
     }
 
 
+@config_file_lock
 @app.delete('/user/{user_id}', status_code=204)
 def delete_user(user_id: str, response: Response):
     state = get_state()
@@ -152,6 +153,7 @@ def get_users():
     return [{'user_id': x.id} for x in users]
 
 
+@config_file_lock
 @app.post('/restart-ss-server')
 def restart_ss_server():
     restart_outline_ss_server()
