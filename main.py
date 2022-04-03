@@ -130,6 +130,7 @@ def create_user(user: User, response: Response):
     restart_outline_ss_server()
     logger.info(f"Create new user {config_user.id}")
     return {
+        'user_id': config_user.id,
         'port': config_user.port,
         'cipher': config_user.cipher,
         'secret': config_user.secret
@@ -144,6 +145,7 @@ def get_user(user_id: str, response: Response):
         response.status_code = status.HTTP_404_NOT_FOUND
         return {}
     return {
+        'user_id': user.id,
         'port': user.port,
         'cipher': user.cipher,
         'secret': user.secret
