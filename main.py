@@ -55,7 +55,7 @@ def get_state() -> State:
                 cipher=u['cipher'],
                 secret=u['secret']
             )
-            for u in yaml_structure.get('keys', [])
+            for u in (yaml_structure.get('keys') if yaml_structure.get('keys') else [])
         ]
         return State(
             ssport=SSPORT,
