@@ -1,4 +1,5 @@
 FROM python:3.11.18-slim-bookworm as user-manager-build
+RUN python -m pip install --no-cache-dir --upgrade pip==26.2.2
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir --user --no-warn-script-location  -r requirements.txt
 
@@ -9,6 +10,7 @@ WORKDIR /user-manager/outline-ss-server
 RUN git checkout v1.3.5 && CGO_ENABLED=0 GOOS=linux go build -o outline-ss-server .
 
 FROM python:3.11.18-slim-bookworm
+RUN python -m pip install --no-cache-dir --upgrade pip==26.2.2
 WORKDIR /user-manager
 COPY --from=user-manager-build /root/.local /root/.local
 COPY --from=outline-ss-server-build /user-manager/outline-ss-server/outline-ss-server /user-manager/outline-ss-server/outline-ss-server
