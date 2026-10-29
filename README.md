@@ -1,3 +1,20 @@
+The Python API uses Python 3.11.18 and patched FastAPI, Starlette, AnyIO and
+filelock dependencies. Rebuild and redeploy the container to update its runtime;
+restarting an existing image does not replace its certificate trust behavior.
+The embedded Outline server v1.3.5 and Go 1.18 builder still require a separate
+security upgrade. Keep the management API restricted to trusted callers.
+
+## Tests
+
+With Python 3.11.18 in an isolated virtual environment:
+
+```bash
+pip install -r requirements-test.txt
+python -m unittest discover -s tests -v
+```
+
+The API tests use a temporary configuration and mock the Outline restart command.
+
 ## How to run
 ```
 git clone git@github.com:Jigsaw-Code/outline-ss-server.git
