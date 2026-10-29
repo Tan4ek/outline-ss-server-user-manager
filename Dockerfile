@@ -1,4 +1,4 @@
-FROM python:3.8-alpine as user-manager-build
+FROM python:3.11.18-slim-bookworm as user-manager-build
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir --user --no-warn-script-location  -r requirements.txt
 
@@ -8,13 +8,13 @@ RUN git clone https://github.com/Jigsaw-Code/outline-ss-server.git
 WORKDIR /user-manager/outline-ss-server
 RUN git checkout v1.3.5 && CGO_ENABLED=0 GOOS=linux go build -o outline-ss-server .
 
-FROM python:3.8-alpine
+FROM python:3.11.18-slim-bookworm
 WORKDIR /user-manager
 COPY --from=user-manager-build /root/.local /root/.local
 COPY --from=outline-ss-server-build /user-manager/outline-ss-server/outline-ss-server /user-manager/outline-ss-server/outline-ss-server
 
 ENV PATH=/root/.local/bin:$PATH
-RUN apk add --no-cache make supervisor
+RUN apt-get update && apt-get install -y --no-install-recommends make supervisor && rm -rf /var/lib/apt/lists/*
 
 COPY Makefile .
 COPY supervisord.conf .
